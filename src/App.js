@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+import Login from "./Components/Login/login";
+import Header from "./Components/Header/header";
+import Contact from "./Pages/Contact";
+import Home from "./Pages/Home";
+import Jobs from "./Pages/jobs";
+import About from "./Pages/About";
+import { useState } from "react";
+import NotFound from "./Pages/NotFound";
 
 function App() {
+  const [islogged, setLogged] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login setIsLoggedIn={setLogged} />}></Route>
+          <Route path="*" element={<NotFound value="un Authorized" />}></Route>
+          {islogged && (
+            <>
+              <Route path="header" element={<Header />}></Route>
+              <Route path="contact" element={<Contact />}></Route>
+              <Route path="jobs" element={<Jobs />}></Route>
+              <Route path="about" element={<About />}></Route>
+              <Route index path="home" element={<Home />}></Route>
+            </>
+          )}
+        </Routes>
+      </Router>
     </div>
   );
 }
